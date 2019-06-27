@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 public class Ball {
     public Ball() {
