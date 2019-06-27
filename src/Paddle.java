@@ -20,7 +20,7 @@ public class Paddle {
         this.y = p.height / 2 - height / 2;
     }
     public void render(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.RED);
         g.fillRect(x, y, width, height);
     }
 
