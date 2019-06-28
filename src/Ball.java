@@ -16,20 +16,19 @@ public class Ball {
         this.random = new Random();
         this.x = pong.width / 2 - this.width / 2;
         this.y = pong.height / 2 - this.height / 2;
-        this.motionX = -500;//random.nextInt(3) - 1  + random.nextInt(20);
-        this.motionY = 0; // random.nextInt(3) - 1  + random.nextInt(20);
+        this.motionX = random.nextInt(3) - 1  + random.nextInt(50);
+        this.motionY = random.nextInt(3) - 1  + random.nextInt(50);
     }
     public void update(Paddle p1, Paddle p2) {
         this.x += this.motionX;
-//        this.y += this.motionY;
 
         if (collision(p1) == 1) {
-            this.motionX = 1;
-            this.motionY = -2 + random.nextInt(20);
+            this.motionX = random.nextInt(3) - 1  + random.nextInt(50);
+            this.motionY = -2 + random.nextInt(50);
         }
         if (collision(p2) == 1) {
-            this.motionX = -1;
-            this.motionY = -2 + random.nextInt(20);
+            this.motionX = -(random.nextInt(3) - 1  + random.nextInt(50));
+            this.motionY = -2 + random.nextInt(50);
         }
         if (collision(p1) == 2) {
             p1.score++;
@@ -41,12 +40,11 @@ public class Ball {
     }
 
     public int collision(Paddle paddle) {
-        if (paddle.x + paddle.width > this.x) {
-            if (paddle.y < this.y + height || paddle.y + paddle.height > this.y) {
+        if (paddle.x + paddle.width > this.x && this.x + width > paddle.x && paddle.y < this.y + height && paddle.y + paddle.height > this.y) {
                 return 1; // Hit Paddle
-            } else {
-                return 2; // Over the goal (Score)
-            }
+
+        } else if ((paddle.x > this.x && paddle.paddleNumber == 1) || (paddle.x < this.x - this.width && paddle.paddleNumber == 2)){
+            return 2;
         }
         return 0; // No Hit
     }
