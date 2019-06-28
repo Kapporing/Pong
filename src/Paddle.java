@@ -7,8 +7,11 @@ public class Paddle {
     public int y;
     public int width = 50;
     public int height = 300;
+    public int score;
 
     public Paddle(Pong p, int paddleNumber) {
+        this.score = 0;
+
         this.paddleNumber = paddleNumber;
 
         if (paddleNumber == 1) {
@@ -19,6 +22,9 @@ public class Paddle {
         }
         this.y = p.height / 2 - height / 2;
     }
+
+
+
     public void render(Graphics g) {
         g.setColor(Color.RED);
         g.fillRect(x, y, width, height);

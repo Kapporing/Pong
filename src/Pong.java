@@ -6,14 +6,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Pong implements ActionListener, KeyListener {
-    int width = 1500;
-    int height = 900;
+    int width = 700;
+    int height = 700;
 
     boolean w,s,up,down;
 
     static Pong pong;
     Paddle p1;
     Paddle p2;
+    Ball ball;
 
 
     public int gameStatus = 0;
@@ -25,7 +26,7 @@ public class Pong implements ActionListener, KeyListener {
         JFrame board = new JFrame("Pong");
         renderer = new Renderer();
 
-        board.setSize(width + 20, height + 50);
+        board.setSize(width + 15, height + 45);
         board.setLocationRelativeTo(null);
         board.setVisible(true);
         board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,8 +56,9 @@ public class Pong implements ActionListener, KeyListener {
     }
 
     void start() {
-        p1 = new Paddle(this, 1);
-        p2 = new Paddle(this, 2);
+        this.ball = new Ball(this);
+        this.p1 = new Paddle(this, 1);
+        this.p2 = new Paddle(this, 2);
     }
 
     void update() {
