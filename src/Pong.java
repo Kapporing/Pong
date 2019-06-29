@@ -9,19 +9,19 @@ public class Pong implements ActionListener, KeyListener {
     int width = 1500;
     int height = 900;
 
-    boolean w,s,up,down;
+    private boolean w,s,up,down;
 
     static Pong pong;
-    Paddle p1;
-    Paddle p2;
-    Ball ball;
+    private Paddle p1;
+    private Paddle p2;
+    private Ball ball;
 
 
-    public int gameStatus = 0;
+    private int gameStatus = 0;
 
     Renderer renderer;
 
-    public Pong(){
+    Pong(){
         Timer timer = new Timer(20, this);
         JFrame board = new JFrame("Pong");
         renderer = new Renderer();
@@ -66,6 +66,11 @@ public class Pong implements ActionListener, KeyListener {
             g.setStroke(new BasicStroke(5));
             g.drawLine(width / 2, 0, width / 2, height);
             g.drawOval(width / 2 - 300, height / 2 - 300, 600, 600);
+
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Helvetica", 1, 60));
+            g.drawString(String.valueOf(p1.score), width / 2 - 200, 100);
+            g.drawString(String.valueOf(p2.score), width / 2 + 200, 100);
 
             this.p1.render(g);
             this.p2.render(g);

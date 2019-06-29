@@ -14,13 +14,21 @@ class Ball {
     private int motionX;
     private int motionY;
 
+    private int direction() {
+        if (random.nextBoolean()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
     Ball(Pong pong) {
         this.board = pong;
         this.random = new Random();
         this.x = pong.width / 2 - this.width / 2;
         this.y = pong.height / 2 - this.height / 2;
-        this.motionX = random.nextInt(3) - 1  + random.nextInt(10);
-        this.motionY = random.nextInt(3) - 1  + random.nextInt(10);
+        this.motionX = direction() * random.nextInt(15);
+        this.motionY = direction() * random.nextInt(15);
     }
     void update(Paddle p1, Paddle p2) {
         this.x += this.motionX;
@@ -40,32 +48,37 @@ class Ball {
         {
             this.motionX = 10;
             this.motionY = (-2 + random.nextInt(4)) * 5;
-
-            if (motionY == 0)
-            {
+            if (motionY == 0) {
                 motionY = 5;
             }
 
-        }
-        else if (collision(p2) == 1)
-        {
+        } else if (collision(p2) == 1) {
             this.motionX = -10;
             this.motionY = (-2 + random.nextInt(4)) * 5;
-
-            if (motionY == 0)
-            {
+            if (motionY == 0) {
                 motionY = 5;
             }
-
         }
 
-        if (collision(p1) == 2)
-        {
+        if (collision(p1) == 2) {
             p2.score++;
+            spawn();
         }
-        else if (collision(p2) == 2)
-        {
+        else if (collision(p2) == 2) {
             p1.score++;
+            spawn();
+        }
+    }
+
+    private void spawn() {
+        this.x = board.width / 2 - this.width / 2;
+        this.y = board.height / 2 - this.height / 2;
+        this.motionY = (-2 + random.nextInt(4)) * 5;
+        if (motionY == 0) {
+            motionY = 5;
+        }
+        if (motionX == 0) {
+            motionX = direction() * 5;
         }
     }
 
