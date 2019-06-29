@@ -93,6 +93,7 @@ public class Pong implements ActionListener, KeyListener {
         if(down) {
             p2.move(false);
         }
+        ball.update(p1,p2);
     }
 
     @Override

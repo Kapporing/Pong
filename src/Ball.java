@@ -1,45 +1,75 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.Random;
 
-public class Ball {
-    Random random;
+class Ball {
+    private Random random;
+    private Pong board;
 
-    int x;
-    int y;
-    int width = 25;
-    int height = 25;
+    private int x;
+    private int y;
+    private int width = 25;
+    private int height = 25;
 
-    int motionX;
-    int motionY;
+    private int motionX;
+    private int motionY;
 
-    public Ball(Pong pong) {
+    Ball(Pong pong) {
+        this.board = pong;
         this.random = new Random();
         this.x = pong.width / 2 - this.width / 2;
         this.y = pong.height / 2 - this.height / 2;
-        this.motionX = random.nextInt(3) - 1  + random.nextInt(50);
-        this.motionY = random.nextInt(3) - 1  + random.nextInt(50);
+        this.motionX = random.nextInt(3) - 1  + random.nextInt(10);
+        this.motionY = random.nextInt(3) - 1  + random.nextInt(10);
     }
-    public void update(Paddle p1, Paddle p2) {
+    void update(Paddle p1, Paddle p2) {
         this.x += this.motionX;
+        this.y += this.motionY;
 
-        if (collision(p1) == 1) {
-            this.motionX = random.nextInt(3) - 1  + random.nextInt(50);
-            this.motionY = -2 + random.nextInt(50);
+        if (this.y + height > board.height || this.y < 0) {
+            if (this.motionY < 0) {
+                this.y = 0;
+                this.motionY = random.nextInt(10) + 1;
+            } else {
+                this.motionY = -random.nextInt(10) - 1;
+                this.y = board.height - height;
+            }
         }
-        if (collision(p2) == 1) {
-            this.motionX = -(random.nextInt(3) - 1  + random.nextInt(50));
-            this.motionY = -2 + random.nextInt(50);
+
+        if (collision(p1) == 1)
+        {
+            this.motionX = 10;
+            this.motionY = (-2 + random.nextInt(4)) * 5;
+
+            if (motionY == 0)
+            {
+                motionY = 5;
+            }
+
         }
-        if (collision(p1) == 2) {
-            p1.score++;
+        else if (collision(p2) == 1)
+        {
+            this.motionX = -10;
+            this.motionY = (-2 + random.nextInt(4)) * 5;
+
+            if (motionY == 0)
+            {
+                motionY = 5;
+            }
+
         }
-        if (collision(p2) == 2) {
+
+        if (collision(p1) == 2)
+        {
             p2.score++;
         }
-
+        else if (collision(p2) == 2)
+        {
+            p1.score++;
+        }
     }
 
-    public int collision(Paddle paddle) {
+    private int collision(Paddle paddle) {
         if (paddle.x + paddle.width > this.x && this.x + width > paddle.x && paddle.y < this.y + height && paddle.y + paddle.height > this.y) {
                 return 1; // Hit Paddle
 
@@ -49,7 +79,7 @@ public class Ball {
         return 0; // No Hit
     }
 
-    public void render(Graphics2D g) {
+    void render(Graphics2D g) {
         g.setColor(Color.WHITE);
         g.fillOval(x, y, width, height);
     }
